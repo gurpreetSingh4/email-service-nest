@@ -1,0 +1,14 @@
+export const REDIS_CONFIG = () => {
+    return {
+        REDIS_HOST: process.env["REDIS_HOST"],
+        REDIS_PORT: process.env["REDIS_PORT"],
+        REDIS_PASSWORD: process.env["REDIS_PASSWORD"],
+        REDIS_USERNAME: process.env["REDIS_USERNAME"],
+        AUTHACCESSTOKENREDIS: process.env["AUTHACCESSTOKENREDIS"],
+        AUTHEMAILACCESSTOKENREDIS: process.env["AUTHEMAILACCESSTOKENREDIS"],
+        CURRENTEMAILTOKENREDIS: process.env["CURRENTEMAILTOKENREDIS"],
+        CURRENTNAMETOKENREDIS: process.env["CURRENTNAMETOKENREDIS"],
+
+
+    }
+}
