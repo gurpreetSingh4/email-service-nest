@@ -1,5 +1,5 @@
-export const DATA_BASE_OONFIG = ()=> {
-    return{
+export const DATA_BASE_CONFIG = () => {
+    return {
         MONGODB_URI: process.env["MONGODB_URI"]
     }
 }
