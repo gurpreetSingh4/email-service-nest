@@ -9,11 +9,26 @@ import { MongooseConfigService } from './common/mongoose-config.service';
 import { DatabaseModule } from './database/database.module';
 import { OAuthModule } from './domain/oauth-module/OAuth.module';
 import { EmailModule } from './domain/email-module/Email.module';
+import { RouterModule } from '@nestjs/core';
+import { RedisModule } from './domain/redis/redis.module';
 
 @Module({
   imports: [
     OAuthModule,
     EmailModule,
+    RedisModule,
+    RouterModule.register([
+      {
+        path:'api/email',
+        module: EmailModule,
+      },
+      {
+        path:'api/email',
+        module: OAuthModule,
+      },
+
+
+    ]),
     ConfigModule.forRoot({
       envFilePath: ['.env'],
       cache: true,

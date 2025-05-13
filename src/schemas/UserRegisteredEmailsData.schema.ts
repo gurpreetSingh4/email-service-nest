@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Types } from "mongoose";
+import { Document, Types } from "mongoose";
 import { User, USER_MODEL } from "./common/user.schema";
 import { RegisteredEmailData, RegisteredEmailDataSchema } from "./common/registeredEmailData.schema";
 
@@ -14,6 +14,7 @@ export class UserRegisteredEmailsData {
     @Prop({ type: [RegisteredEmailDataSchema], default: [] })
     registeredEmailsData: RegisteredEmailData[];
 }
-export const USER_REG_EMAIL_DATA_MODEL = UserRegisteredEmailsData.name
 
+export type UserRegisteredEmailsDataModel = UserRegisteredEmailsData & Document
+export const USER_REG_EMAIL_DATA_MODEL = UserRegisteredEmailsData.name
 export const UserRegisteredEmailsDataSchema = SchemaFactory.createForClass(UserRegisteredEmailsData);
