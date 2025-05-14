@@ -13,6 +13,7 @@ import { OAuthController } from './OAuth.controller';
 import { OAuthUtilFunctions } from 'src/utils/OAuth.util';
 import { MongooseUtilfn } from 'src/utils/Mongoose.util';
 import { UserAuth } from 'src/middlewares/userAuth.middleware';
+import { GmailServiceUtilFn } from 'src/utils/gmailClient.util';
 
 @Module({
     imports: [
@@ -39,9 +40,9 @@ import { UserAuth } from 'src/middlewares/userAuth.middleware';
 
         ]),
     ],
-    providers: [OAuthService, OAuthUtilFunctions, MongooseUtilfn],
+    providers: [OAuthService, OAuthUtilFunctions, MongooseUtilfn, GmailServiceUtilFn],
     exports: [MongooseModule, OAuthService, MongooseUtilfn],
-    controllers:[OAuthController],
+    controllers: [OAuthController],
 })
 export class OAuthModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
@@ -51,7 +52,7 @@ export class OAuthModule implements NestModule {
 
         consumer
             .apply(UserAuth)
-            .forRoutes('api/email/refreshaccesstoken','api/email/deleteregisteredemail' )
-            
+            .forRoutes('api/email/refreshaccesstoken', 'api/email/deleteregisteredemail')
+
     }
 }

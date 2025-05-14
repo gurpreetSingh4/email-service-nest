@@ -11,19 +11,23 @@ import { OAuthModule } from './domain/oauth-module/OAuth.module';
 import { EmailModule } from './domain/email-module/Email.module';
 import { RouterModule } from '@nestjs/core';
 import { RedisModule } from './domain/redis/redis.module';
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { Property } from './entities/property.entity';
+import { DemoModule } from './domain/demo-module/demo.module';
 
 @Module({
   imports: [
+    DemoModule,
     OAuthModule,
     EmailModule,
     RedisModule,
     RouterModule.register([
       {
-        path:'api/email',
+        path: 'api/email',
         module: EmailModule,
       },
       {
-        path:'api/email',
+        path: 'api/email',
         module: OAuthModule,
       },
 
@@ -50,7 +54,18 @@ import { RedisModule } from './domain/redis/redis.module';
         }
       },
       inject: [ConfigService]
-    })
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        type: 'postgres',
+        url: config.get<string>('PG_DATABASE_URL'),
+        autoLoadEntities: true,
+        synchronize: true, // Don't use in production if you need migrations
+        entities: [__dirname+'/**/*.entity{.ts,.js}'],
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

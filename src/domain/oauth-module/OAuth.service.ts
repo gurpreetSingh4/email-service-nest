@@ -81,12 +81,12 @@ export class OAuthService {
                     `${this.configService.get('AUTHEMAILACCESSTOKENREDIS')}:${userId}:${regEmail}`,
                     access_token
                 )
-                // return res.redirect(
-                //     `${this.configService.get('VITE_FRONTEND_URL')}/oauthgmail/callback?success=true&regemail=${regEmail}&userid=${userId}`
-                // );
-                return res.json({
-                    success: true
-                })
+                return res.redirect(
+                    `${this.configService.get('VITE_FRONTEND_URL')}/oauthgmail/callback?success=true&regemail=${regEmail}&userid=${userId}`
+                );
+                // return res.json({
+                //     success: true
+                // })
             }
             const encyptRefreshToken = encryptToken(tokens.refresh_token)
             const newEntryData: {
@@ -106,12 +106,12 @@ export class OAuthService {
                 `${this.configService.get('AUTHEMAILACCESSTOKENREDIS')}:${userId}:${regEmail}`,
                 tokens.access_token
             )
-            // return res.redirect(
-            //     `${this.configService.get('VITE_FRONTEND_URL')}/oauthgmail/callback?success=true&regemail=${regEmail}&userid=${userId}`
-            // );
-            return res.json({
-                success: true
-            })
+            return res.redirect(
+                `${this.configService.get('VITE_FRONTEND_URL')}/oauthgmail/callback?success=true&regemail=${regEmail}&userid=${userId}`
+            );
+            // return res.json({
+            //     success: true
+            // })
         }
         catch (error) {
             this.logger.error(error)
@@ -143,12 +143,12 @@ export class OAuthService {
                 `${this.configService.get('AUTHEMAILACCESSTOKENREDIS')}:${userid}:${regemail}`,
                 access_token
             )
-            // return res.redirect(
-            //     `${this.configService.get('VITE_FRONTEND_URL')}/oauthgmail/callback?success=true&regemail=${regEmail}&userid=${userId}`
-            // );
-            return res.json({
-                success: true
-            })
+            return res.redirect(
+                `${this.configService.get('VITE_FRONTEND_URL')}/oauthgmail/callback?success=true&regemail=${regemail}&userid=${userid}`
+            );
+            // return res.json({
+            //     success: true
+            // })
         } catch (error) {
             return new BadRequestException("Error during refresh access Token")
         }

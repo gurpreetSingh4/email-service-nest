@@ -7,6 +7,8 @@ import { USER_REG_EMAIL_DATA_MODEL, UserRegisteredEmailsDataSchema } from 'src/s
 import { EmailService } from './email.service';
 import { RedisModule } from '../redis/redis.module';
 import { EmailController } from './email.controller';
+import { EmailUtilFunctions } from 'src/utils/Email.util';
+import { GmailServiceUtilFn } from '../../utils/gmailClient.util';
 
 @Module({
     imports: [
@@ -33,9 +35,9 @@ import { EmailController } from './email.controller';
 
         ]),
     ],
-    providers: [EmailService],
+    providers: [EmailService, EmailUtilFunctions, GmailServiceUtilFn],
     exports: [MongooseModule, EmailService],
-    controllers:[EmailController],
+    controllers: [EmailController],
 })
 export class EmailModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
