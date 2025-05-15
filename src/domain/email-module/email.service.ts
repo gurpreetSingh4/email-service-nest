@@ -147,7 +147,6 @@ export class EmailService {
 
     async fetchEmailsByFolder(accessToken: string, folder: string = '') {
         const gmail = this.gmailServiceUtilFn.getGmailClient(accessToken);
-
         const query = {
             inbox: 'in:inbox',
             sent: 'in:sent',
@@ -162,6 +161,7 @@ export class EmailService {
                 maxResults: 50,
             });
 
+            console.log("list bhi h", response)
             const messages = response.data.messages || [];
 
             const emails = await Promise.all(

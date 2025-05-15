@@ -15,7 +15,7 @@ export class RegisteredEmailData {
     regEmailPicture?: string
 
     @Prop({ type: String })
-    regEmailName?: string;
+    regEmailName?: string
 
 }
 

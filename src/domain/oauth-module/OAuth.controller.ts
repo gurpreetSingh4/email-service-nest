@@ -38,17 +38,20 @@ export class OAuthController {
 
     @Get('google/callback')
     async googleCallback(@Req() req: Request, @Res() res: Response, @Session() session: Record<string, any>) {
-        return this.oAuthService.finalizeOAuth(req, res, session);
+        return await this.oAuthService.finalizeOAuth(req, res, session);
     }
-    
+
     @Get('/refreshaccesstoken')
     async refreshAccessToken(@Req() req: Request, @Res() res: Response, @Session() session: Record<string, any>) {
-        return this.oAuthService.refreshAccToken(req, res, session);
+        const result = await this.oAuthService.refreshAccToken(req, res, session);
+        return res.status(200).json(result)
+
     }
 
     @Get('/deleteregisteredemail')
     async deleteRegEmail(@Req() req: Request, @Res() res: Response, @Session() session: Record<string, any>) {
-        return this.oAuthService.deleteRegEmail(req, res, session);
+        const result = await  this.oAuthService.deleteRegEmail(req, res, session);
+        return result
     }
 
 

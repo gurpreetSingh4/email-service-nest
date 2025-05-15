@@ -120,20 +120,24 @@ export class OAuthService {
 
     }
 
-    async refreshAccToken(req: Request, res: Response, session: Record<string, any>) {
+    async refreshAccToken(req: Request, res: Response, session: Record<string, any>): Promise<{ success: boolean; message: string; regemail?: string; userid?: string }> {
         try {
             const { userid, regemail } = req.query;
             console.log(userid, regemail, "h yha")
             if (!userid || !regemail) {
-                return res.status(400).json({
+                return {
                     success: false,
                     message: "userid , regemail not found in query parameter",
-                });
+                };
             }
 
             const existedUser = await this.mongooseUtilFn.findRegisteredEmailData(userid as string, regemail as string)
             if (!existedUser) {
-                return new BadGatewayException("user is not found for refresh access token")
+                return {
+                    success: false,
+                    message: "user is not found for refresh access token",
+                };
+
             }
             const getEncryptRefreshToken = existedUser.regEmailRefreshToken
             const getDecryptRefreshToken = decryptToken(getEncryptRefreshToken as string)
@@ -143,14 +147,17 @@ export class OAuthService {
                 `${this.configService.get('AUTHEMAILACCESSTOKENREDIS')}:${userid}:${regemail}`,
                 access_token
             )
-            return res.redirect(
-                `${this.configService.get('VITE_FRONTEND_URL')}/oauthgmail/callback?success=true&regemail=${regemail}&userid=${userid}`
-            );
-            // return res.json({
-            //     success: true
-            // })
+           
+            return {
+                success: true,
+                message: 'Access token refreshed successfully.'
+            };
+
         } catch (error) {
-            return new BadRequestException("Error during refresh access Token")
+            return {
+                success: false,
+                message: 'Failed to refresh access token.',
+            };
         }
 
     }

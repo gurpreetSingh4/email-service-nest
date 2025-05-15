@@ -15,7 +15,7 @@ export class IsAuthenticatedUser implements NestMiddleware {
             return next(); // Skip logic for other paths
         }
         try {
-            const { userid, regemail } = req.query
+            const { userid } = req.query
             if (!userid) {
                 Logger.error('Missing userid in query parameters')
                 res.status(401).json({
@@ -23,13 +23,7 @@ export class IsAuthenticatedUser implements NestMiddleware {
                     message: "Missing userid in query parameters"
                 })
             }
-            if (!regemail) {
-                Logger.error('Missing regemail in query parameters')
-                res.status(401).json({
-                    success: false,
-                    message: "Missing regemail in query parameters"
-                })
-            }
+            
             const redisAccessToken = this.configService.get('AUTHACCESSTOKENREDIS')
             const redisKey = `${redisAccessToken}:${userid}`
             const jwtToken = await this.redisClient.get(redisKey)
@@ -46,7 +40,6 @@ export class IsAuthenticatedUser implements NestMiddleware {
             }
             const tokenData = jwt.verify(jwtToken, jwtSecret);
             req.session['user'] = tokenData;
-            req.session['regEmail'] = regemail
             return next()
 
         } catch (err) {
